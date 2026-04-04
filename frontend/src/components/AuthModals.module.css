@@ -1,0 +1,217 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.field label {
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.required { color: var(--red); margin-left: 2px; }
+
+.inputError {
+  border-color: var(--red) !important;
+  box-shadow: 0 0 0 3px rgba(255,92,92,.1) !important;
+}
+
+.pwdWrap { position: relative; }
+.pwdWrap .input { padding-right: 44px; width: 100%; }
+
+.eyeBtn {
+  position: absolute;
+  right: 12px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  cursor: pointer; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+  transition: color .15s;
+}
+.eyeBtn:hover { color: var(--text-primary); }
+
+.forgotLink {
+  background: none; border: none;
+  cursor: pointer; font-size: .76rem;
+  color: var(--text-muted); padding: 0;
+  margin-top: 4px; text-align: right;
+  align-self: flex-end; transition: color .15s;
+}
+.forgotLink:hover { color: var(--green); }
+
+.fieldHint      { font-size: .73rem; color: var(--text-muted); margin: 3px 0 0; }
+.fieldHintError { font-size: .73rem; color: var(--red);        margin: 3px 0 0; }
+
+.orDivider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 18px 0;
+  color: var(--text-muted); font-size: .76rem;
+}
+.orDivider::before,
+.orDivider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+.banner {
+  border-radius: var(--r-sm);
+  padding: 11px 14px;
+  margin-bottom: 12px;
+  font-size: .83rem;
+  line-height: 1.55;
+}
+.bannerMsg { margin: 0 0 2px; color: inherit; }
+
+.bannerError {
+  background: rgba(255,92,92,.06);
+  border: 1px solid rgba(255,92,92,.2);
+  border-left: 3px solid var(--red);
+  color: #ff7878;
+}
+.bannerWarning {
+  background: rgba(255,159,67,.06);
+  border: 1px solid rgba(255,159,67,.2);
+  border-left: 3px solid var(--orange);
+  color: var(--orange);
+}
+.bannerSuccess {
+  background: rgba(0,208,132,.07);
+  border: 1px solid rgba(0,208,132,.2);
+  border-left: 3px solid var(--green);
+  color: var(--green);
+}
+
+.hintBtn {
+  display: inline-block; background: none; border: none;
+  cursor: pointer; font-size: .79rem; font-weight: 700;
+  color: inherit; padding: 0; margin-top: 6px;
+  text-decoration: underline; text-underline-offset: 2px;
+  opacity: .9; transition: opacity .15s;
+}
+.hintBtn:hover { opacity: 1; }
+
+.resendBtn {
+  display: inline-block; background: none;
+  border: 1px solid currentColor; border-radius: var(--r-sm);
+  color: inherit; cursor: pointer;
+  font-size: .77rem; font-weight: 600;
+  padding: 5px 12px; margin-top: 8px;
+  opacity: .85; transition: opacity .15s;
+}
+.resendBtn:hover    { opacity: 1; }
+.resendBtn:disabled { opacity: .35; cursor: not-allowed; }
+
+.switchBtn {
+  background: none; border: none;
+  color: var(--green); cursor: pointer;
+  font-size: inherit; padding: 0; font-weight: 600;
+  transition: opacity .15s;
+}
+.switchBtn:hover { opacity: .8; }
+
+.backBtn {
+  background: none; border: none; cursor: pointer;
+  font-size: .8rem; color: var(--text-muted); padding: 0;
+  display: inline-flex; align-items: center; gap: 5px;
+  transition: color .15s; font-weight: 500;
+}
+.backBtn:hover { color: var(--text-primary); }
+
+.checklist {
+  list-style: none; margin: 10px 0 0; padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 5px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+.checklist li {
+  display: flex; align-items: center; gap: 7px;
+  font-size: .74rem; transition: color .2s;
+}
+.checkMet   { color: var(--green); }
+.checkUnmet { color: var(--text-muted); }
+.checkFail  { color: var(--red); }
+
+.checkDot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0; margin-left: 3px;
+}
+
+.otpRow {
+  display: flex; gap: 10px;
+  justify-content: center;
+  margin: 8px 0 4px;
+}
+.otpBox {
+  width: 48px; height: 56px;
+  text-align: center;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  caret-color: var(--green);
+  transition: border-color .15s, box-shadow .15s;
+  outline: none;
+  font-size: 1.4rem;
+}
+.otpBox:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(0,208,132,.12);
+}
+.otpBoxError {
+  border-color: var(--red) !important;
+  box-shadow: 0 0 0 3px rgba(255,92,92,.08) !important;
+}
+
+.otpMeta {
+  display: flex; justify-content: center; align-items: center;
+  margin-top: 12px; font-size: .78rem;
+}
+.otpTimer {
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700; font-family: var(--font-mono);
+}
+.otpExpired  { color: var(--orange); font-weight: 600; }
+.resendOtpBtn {
+  background: none; border: none; cursor: pointer;
+  color: var(--green); font-size: .78rem; font-weight: 700; padding: 0;
+}
+.resendOtpBtn:disabled { color: var(--text-muted); cursor: not-allowed; }
+.resendOtpBtn:not(:disabled):hover { text-decoration: underline; }
+
+.successIcon {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: rgba(0,208,132,.1);
+  border: 1px solid rgba(0,208,132,.2);
+  box-shadow: 0 0 24px rgba(0,208,132,.1);
+  color: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.inboxIcon { font-size: 3rem; margin-bottom: 16px; }
+.emailHighlight {
+  display: inline-block;
+  background: var(--bg-hover); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 5px 14px;
+  font-weight: 700; color: var(--text-primary); font-size: .9rem;
+}
+
+@media (max-width: 560px) {
+  .otpBox { width: 42px; height: 50px; font-size: 1.25rem; }
+  .otpRow { gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .otpBox { width: 38px; height: 46px; font-size: 1.1rem; border-radius: var(--r-sm); }
+  .otpRow { gap: 6px; }
+  .field label { font-size: .75rem; }
+  .banner { font-size: .8rem; padding: 10px 12px; }
+  .checklist li { font-size: .72rem; }
+}

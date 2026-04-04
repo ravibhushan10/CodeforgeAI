@@ -1,0 +1,131 @@
+.setup { display: flex; flex-direction: column; gap: 18px; }
+
+.setupIcon  { font-size: 2rem; text-align: center; }
+.setupTitle {
+  font-size: 1rem; font-weight: 800;
+  text-align: center; letter-spacing: -.01em;
+}
+.setupSub {
+  font-size: .8rem; color: var(--text-secondary);
+  text-align: center; margin-top: -10px;
+}
+
+.setupSection { display: flex; flex-direction: column; gap: 8px; }
+.setupLabel   {
+  font-size: .7rem; font-weight: 700;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip  {
+  padding: 5px 13px; border-radius: var(--r-sm);
+  background: var(--bg-hover); border: 1px solid var(--border);
+  color: var(--text-secondary); font-size: .78rem;
+  transition: var(--ease); cursor: pointer;
+}
+.chip:hover  { border-color: var(--border-light); color: var(--text-primary); }
+.chipActive  {
+  background: rgba(0,208,132,.08) !important;
+  border-color: var(--green) !important;
+  color: var(--green) !important;
+  font-weight: 700;
+}
+
+.setupRules {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 7px;
+  font-size: .78rem; color: var(--text-secondary);
+}
+.setupRules div::before {
+  content: '·';
+  color: var(--green);
+  margin-right: 8px;
+  font-weight: 800;
+}
+
+.active { display: flex; flex-direction: column; gap: 14px; }
+
+.timer {
+  text-align: center; padding: 16px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--r-lg); transition: var(--ease);
+}
+.timerUrgent {
+  border-color: var(--red);
+  background: rgba(255,92,92,.06);
+  animation: pulse 1s infinite;
+}
+.timerLabel {
+  font-size: .68rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: 4px;
+}
+.timerValue {
+  font-size: 2.4rem; font-weight: 800;
+  font-family: var(--font-mono); line-height: 1;
+}
+.timerWarn { font-size: .78rem; color: var(--red); font-weight: 700; margin-top: 4px; }
+
+.progress { margin-bottom: -2px; }
+
+.problemList { display: flex; flex-direction: column; gap: 8px; }
+
+.problemRow {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; flex-wrap: wrap; padding: 12px 14px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--r-md); transition: var(--ease);
+}
+.problemRow:hover { border-color: var(--border-light); }
+.problemSolved {
+  border-color: rgba(0,208,132,.3) !important;
+  background: rgba(0,208,132,.05) !important;
+}
+.problemLeft   { display: flex; align-items: center; gap: 10px; }
+.problemRight  { display: flex; gap: 6px; flex-wrap: wrap; }
+.problemNum    {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg-hover); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .72rem; font-weight: 700; flex-shrink: 0;
+  font-family: var(--font-mono);
+}
+.problemTitle  { font-size: .84rem; font-weight: 500; margin-bottom: 4px; }
+
+.result {
+  display: flex; flex-direction: column;
+  gap: 14px; align-items: center; text-align: center;
+}
+
+.resultGrade { font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; }
+.resultScore {
+  font-size: 3.2rem; font-weight: 800;
+  font-family: var(--font-mono); color: var(--text-primary); line-height: 1;
+}
+.resultScore span { font-size: 1.3rem; color: var(--text-secondary); }
+.resultSub { font-size: .84rem; color: var(--text-secondary); }
+
+.resultProblems { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.resultRow {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--r-sm); text-align: left;
+  transition: var(--ease); flex-wrap: wrap;
+}
+.resultRow:hover { border-color: var(--border-light); }
+.tick  { color: var(--green); font-weight: 800; }
+.cross { color: var(--red);   font-weight: 800; }
+.resultTitle { flex: 1; font-size: .83rem; min-width: 120px; }
+.resultPts   { font-family: var(--font-mono); font-size: .74rem; color: var(--green); font-weight: 700; }
+
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .75; } }
+
+@media (max-width: 480px) {
+  .timerValue { font-size: 2rem; }
+  .problemRow { padding: 10px 12px; }
+  .problemRight { width: 100%; justify-content: flex-end; }
+  .chip { padding: 4px 10px; font-size: .74rem; }
+  .resultScore { font-size: 2.5rem; }
+}

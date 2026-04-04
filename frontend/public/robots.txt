@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /help
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /problems/
+Disallow: /leaderboard
+Disallow: /verify-email
+
+# Sitemap location
+Sitemap: https://codeforgeai.in/sitemap.xml
