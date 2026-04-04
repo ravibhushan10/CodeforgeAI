@@ -93,14 +93,6 @@ export default function Problems() {
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   }, [search]);
 
-  const handleProblemClick = (p, e) => {
-    if (isPro) return;
-    if (p.premium) {
-      e.preventDefault();
-      setPopupProblem(p._id);
-    }
-  };
-
   const handleClearFilters = () => { setDiff('All'); setTag('All'); setSearch(''); };
 
   const easy   = allProblems.filter(p => p.difficulty === 'Easy').length;
@@ -254,13 +246,18 @@ export default function Problems() {
 
                       return (
                         <tr
-                        key={p._id}
-                        className={`
-                          ${isSolved ? styles.solvedRow : ''}
-                          ${isLocked ? styles.lockedRow : ''}
-                          ${popupOpen ? styles.popupOpenRow : ''}
+                          key={p._id}
+                          className={`
+                            ${isSolved ? styles.solvedRow : ''}
+                            ${isLocked ? styles.lockedRow : ''}
+                            ${popupOpen ? styles.popupOpenRow : ''}
+                            ${styles.clickableRow}
                           `}
-                          onClick={() => { if (popupOpen) setPopupProblem(null); }}
+                          onClick={(e) => {
+                            if (popupOpen) { setPopupProblem(null); return; }
+                            if (isLocked)  { setPopupProblem(p._id); return; }
+                            navigate(`/problems/${p.slug}`);
+                          }}
                         >
                           <td className={styles.numCell}>{p.number}</td>
 
@@ -271,18 +268,14 @@ export default function Problems() {
                           </td>
 
                           <td className={styles.titleCell} style={{ position: 'relative' }}>
-                            <Link
-                              to={`/problems/${p.slug}`}
-                              className={styles.titleLink}
-                              onClick={e => handleProblemClick(p, e)}
-                              >
+                            <span className={styles.titleLink}>
                               {p.title}
                               {!isPro && p.premium && (
                                 <span className="badge badge-premium" style={{ marginLeft: 8 }}>
                                   Premium
                                 </span>
                               )}
-                            </Link>
+                            </span>
 
                             <div className={styles.companies}>
                               {(p.companies || []).slice(0, 3).map(c => (
@@ -292,8 +285,8 @@ export default function Problems() {
 
                             {popupOpen && (
                               <div
-                              className={styles.inlinePopup}
-                              onClick={e => e.stopPropagation()}
+                                className={styles.inlinePopup}
+                                onClick={e => e.stopPropagation()}
                               >
                                 <div className={styles.inlinePopupText}>
                                   <strong>Premium Problem</strong>
@@ -302,13 +295,13 @@ export default function Problems() {
                                 <button
                                   className={`btn btn-primary btn-sm ${styles.inlinePopupBtn}`}
                                   onClick={() => { setPopupProblem(null); openPayment(); }}
-                                  >
+                                >
                                   Unlock Pro
                                 </button>
                                 <button
                                   className={styles.inlinePopupClose}
                                   onClick={e => { e.stopPropagation(); setPopupProblem(null); }}
-                                  >
+                                >
                                   ✕
                                 </button>
                               </div>
@@ -321,7 +314,13 @@ export default function Problems() {
 
                           <td className={styles.tagsCell}>
                             {(p.tags || []).slice(0, 2).map(t => (
-                              <button key={t} className={styles.tagChip}>{t}</button>
+                              <button
+                                key={t}
+                                className={styles.tagChip}
+                                onClick={e => { e.stopPropagation(); setTag(t); }}
+                              >
+                                {t}
+                              </button>
                             ))}
                           </td>
 
@@ -362,6 +361,6 @@ export default function Problems() {
         </div>
       </div>
     </div>
-            </>
+    </>
   );
 }
