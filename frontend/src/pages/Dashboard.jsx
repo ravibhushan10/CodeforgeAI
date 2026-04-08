@@ -144,7 +144,7 @@ export default function Dashboard() {
                           style={{ justifyContent: 'center', marginTop: 12, width: '100%' }}
                           onClick={openPayment}
                           >
-                          Continue with ₹100/month
+                          Continue with ₹10/month
                         </button>
                       </div>
                     ))}
