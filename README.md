@@ -395,6 +395,50 @@ codeforge/
 - [ ] Email digest of recommended problems
 
 ---
+## 🤝 Contributing
+
+### How to Contribute
+
+1. **Fork the Repository**
+   - Click the **Fork** button at the top right of this repository
+
+2. **Clone Your Fork**
+   ```bash
+   git clone https://github.com/ravibhushan10/CodeforgeAI.git
+   cd codeforge
+   ```
+
+3. **Create a Branch**
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+
+4. **Make Your Changes**
+   - Write clean, readable code
+   - Follow the existing code style
+   - Test your changes thoroughly
+
+5. **Commit Your Changes**
+   ```bash
+   git add .
+   git commit -m 'Add some AmazingFeature'
+   ```
+
+6. **Push to Your Fork**
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+
+7. **Open a Pull Request**
+   - Go to your forked repository on GitHub
+   - Click **"Compare & pull request"**
+   - Fill in the PR form:
+     - **Title**: Brief summary (e.g., "Add dark mode animation")
+     - **Description**: What changed, why, screenshots if UI change
+     - **Related issues**: e.g., "Fixes #12"
+   - Click **"Create pull request"**
+
+---
 
 ## 👨‍💻 Author
 
