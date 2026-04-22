@@ -1,4 +1,3 @@
-
 const isProd = process.env.NODE_ENV === 'production';
 
 // ─── Production: Resend HTTP API ─────────────────────────────────────────────
@@ -175,9 +174,10 @@ export async function sendPasswordResetOtp(toEmail, name, otp) {
   });
 }
 
+// ← ONLY CHANGE: to: now uses EMAIL_TO (your inbox) instead of EMAIL_FROM (sender address)
 export async function sendContactEmail({ name, email, category, subject, message }) {
   await send({
-    to:      process.env.EMAIL_FROM || process.env.GMAIL_USER,
+    to:      process.env.EMAIL_TO || process.env.GMAIL_USER,
     subject: `[CodeForge Support] ${category}: ${subject}`,
     html: `
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#f9f9f9;border-radius:8px;">
