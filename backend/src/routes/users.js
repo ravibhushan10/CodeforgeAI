@@ -36,6 +36,7 @@ function cookieOptions() {
     secure:   isProd,
     sameSite: isProd ? 'none' : 'lax',
     path:     '/',
+    domain:   isProd ? '.codeforgeai.in' : undefined,
   };
 }
 
