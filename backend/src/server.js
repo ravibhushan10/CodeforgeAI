@@ -34,6 +34,7 @@ const corsOptions = {
       allowedOrigins.includes(origin) ||
       origin === process.env.ADMIN_URL
     ) return cb(null, true);
+     console.error('CORS blocked origin:', origin);
     cb(new Error('Not allowed by CORS'));
   },
   credentials: true,
@@ -41,6 +42,10 @@ const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  next();
+});
 
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
 

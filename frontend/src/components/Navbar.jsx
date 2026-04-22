@@ -60,12 +60,13 @@ export default function Navbar() {
     { to: '/problems',    label: 'Problems'    },
     { to: '/dashboard',   label: 'Dashboard'   },
     { to: '/leaderboard', label: 'Leaderboard' },
+    
   ];
 
   const isActive        = (path) => location.pathname === path || location.pathname.startsWith(path + '/');
   const isHomepage      = location.pathname === '/';
   const isProfile       = location.pathname === '/profile';
-  const showNavLinks    = user || !isHomepage;
+  const showNavLinks    = !!user;
   const logoIsClickable = !(isHomepage && !user) && !isProfile;
 
   const handleLogout = () => {

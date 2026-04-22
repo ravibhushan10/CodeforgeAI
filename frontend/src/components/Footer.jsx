@@ -1,7 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useApp } from '../context/AppContext.jsx';
 import styles from './Footer.module.css';
 
 export default function Footer() {
+  const { user } = useApp();
+  const location = useLocation();
+
+  const isHomepage = location.pathname === '/';
+  const showHelp = user || !isHomepage;
+
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
@@ -11,7 +18,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.links}>
-          <Link to="/help">Help & Support</Link>
+          {showHelp && <Link to="/help">Help & Support</Link>}
         </div>
 
         <div className={styles.right}>
