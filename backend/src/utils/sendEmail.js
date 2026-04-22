@@ -174,32 +174,128 @@ export async function sendPasswordResetOtp(toEmail, name, otp) {
   });
 }
 
-// ← ONLY CHANGE: to: now uses EMAIL_TO (your inbox) instead of EMAIL_FROM (sender address)
+// ─── Contact form — sends TWO emails ─────────────────────────────────────────
+// 1. Auto-reply to the user (thank you email)
+// 2. Notification to your inbox (support message details)
+// ─────────────────────────────────────────────────────────────────────────────
 export async function sendContactEmail({ name, email, category, subject, message }) {
+
+  // ── 1. Auto-reply to user ──────────────────────────────────────────────────
+  await send({
+    to:      email,
+    subject: `We received your message — CodeForge Support`,
+    html: `
+      <div style="font-family:sans-serif;max-width:520px;margin:0 auto;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4);">
+
+        <!-- Header -->
+        <div style="background:#00d084;padding:36px 40px;text-align:center;">
+          <h1 style="margin:0;color:#000;font-size:22px;font-weight:800;letter-spacing:-.3px;">
+            Thanks for reaching out! 👋
+          </h1>
+        </div>
+
+        <!-- Body -->
+        <div style="background:#0f0f0f;padding:36px 40px;">
+          <p style="color:#e0e0e0;font-size:15px;margin:0 0 16px;">
+            Hey <strong style="color:#00d084">${name.split(' ')[0]}</strong>,
+          </p>
+          <p style="color:#aaa;font-size:14px;line-height:1.7;margin:0 0 24px;">
+            We've received your message and will get back to you as soon as possible — usually within 24 hours.
+          </p>
+
+          <!-- Message summary box -->
+          <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-left:3px solid #00d084;border-radius:8px;padding:20px 24px;margin-bottom:24px;">
+            <p style="color:#666;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:0 0 12px;">Your message summary</p>
+            <table style="width:100%;border-collapse:collapse;">
+              <tr>
+                <td style="color:#555;font-size:13px;padding:5px 0;width:80px;">Category</td>
+                <td style="color:#ccc;font-size:13px;padding:5px 0;">${category}</td>
+              </tr>
+              <tr>
+                <td style="color:#555;font-size:13px;padding:5px 0;">Subject</td>
+                <td style="color:#ccc;font-size:13px;padding:5px 0;">${subject}</td>
+              </tr>
+            </table>
+          </div>
+
+          <p style="color:#555;font-size:13px;line-height:1.6;margin:0 0 28px;">
+            If your matter is urgent, feel free to call me directly at +91 9199519751, or Email me on this
+            <a href="mailto:${process.env.EMAIL_TO || process.env.GMAIL_USER}"
+               style="color:#00d084;text-decoration:none;">
+              ${process.env.EMAIL_TO || process.env.GMAIL_USER}
+            </a>
+          </p>
+
+          <p style="color:#aaa;font-size:14px;margin:0;">
+            Talk soon,<br/>
+            <strong style="color:#e0e0e0;">The CodeForge Team</strong>
+          </p>
+        </div>
+
+        <!-- Footer -->
+        <div style="background:#0a0a0a;padding:16px 40px;text-align:center;border-top:1px solid #1a1a1a;">
+          <p style="color:#333;font-size:11px;margin:0;">
+            This is an automated reply — please don't respond to this email.<br/>
+            CodeForge · The platform built for developers who want to get hired
+          </p>
+        </div>
+      </div>
+    `,
+  });
+
+  // ── 2. Notification to your inbox ─────────────────────────────────────────
   await send({
     to:      process.env.EMAIL_TO || process.env.GMAIL_USER,
     subject: `[CodeForge Support] ${category}: ${subject}`,
     html: `
-      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#f9f9f9;border-radius:8px;">
-        <h2 style="color:#00d084;margin:0 0 20px;">New Support Message</h2>
-        <table style="width:100%;border-collapse:collapse;">
-          <tr>
-            <td style="padding:8px 0;color:#666;width:100px;font-size:14px;">From</td>
-            <td style="padding:8px 0;font-size:14px;font-weight:600;">${name} &lt;${email}&gt;</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 0;color:#666;font-size:14px;">Category</td>
-            <td style="padding:8px 0;font-size:14px;">${category}</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 0;color:#666;font-size:14px;">Subject</td>
-            <td style="padding:8px 0;font-size:14px;font-weight:600;">${subject}</td>
-          </tr>
-        </table>
-        <hr style="border:none;border-top:1px solid #e0e0e0;margin:16px 0;" />
-        <h3 style="font-size:14px;color:#333;margin:0 0 10px;">Message</h3>
-        <div style="background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:16px;font-size:14px;line-height:1.7;color:#333;white-space:pre-wrap;">${message}</div>
-        <p style="font-size:12px;color:#999;margin-top:20px;">Hit reply to respond directly to ${name} at ${email}</p>
+      <div style="font-family:sans-serif;max-width:560px;margin:0 auto;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4);">
+
+        <!-- Header -->
+        <div style="background:#00d084;padding:28px 40px;">
+          <p style="margin:0;color:#000;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.7;">New Support Message</p>
+          <h1 style="margin:6px 0 0;color:#000;font-size:20px;font-weight:800;">📬 CodeForge Support</h1>
+        </div>
+
+        <!-- Fields -->
+        <div style="background:#0f0f0f;padding:32px 40px;">
+
+          <div style="margin-bottom:16px;">
+            <p style="color:#555;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">From</p>
+            <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:12px 16px;">
+              <p style="color:#e0e0e0;font-size:14px;font-weight:600;margin:0;">${name}</p>
+              <a href="mailto:${email}" style="color:#00d084;font-size:13px;text-decoration:none;">${email}</a>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-bottom:16px;">
+            <div style="flex:1;">
+              <p style="color:#555;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">Category</p>
+              <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:12px 16px;">
+                <p style="color:#ccc;font-size:13px;margin:0;">${category}</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <p style="color:#555;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">Subject</p>
+            <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:12px 16px;">
+              <p style="color:#e0e0e0;font-size:14px;font-weight:600;margin:0;">${subject}</p>
+            </div>
+          </div>
+
+          <div style="margin-bottom:8px;">
+            <p style="color:#555;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:0 0 6px;">Message</p>
+            <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-left:3px solid #00d084;border-radius:8px;padding:16px;font-size:14px;line-height:1.7;color:#ccc;white-space:pre-wrap;">${message}</div>
+          </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div style="background:#0a0a0a;padding:16px 40px;border-top:1px solid #1a1a1a;">
+          <p style="color:#333;font-size:11px;margin:0;text-align:center;">
+            Hit reply or email <a href="mailto:${email}" style="color:#00d084;text-decoration:none;">${email}</a> to respond directly to ${name}
+          </p>
+        </div>
       </div>
     `,
   });
