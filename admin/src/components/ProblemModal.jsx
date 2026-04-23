@@ -13,7 +13,7 @@ export default function ProblemModal({ open, editingProb, onClose, onSave }) {
   const [f,       setF]       = useState(EMPTY)
   const [saving,  setSaving]  = useState(false)
 
-  // Populate form whenever the modal opens
+
   useEffect(() => {
     if (!open) return
     if (editingProb) {

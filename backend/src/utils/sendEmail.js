@@ -1,6 +1,5 @@
 const isProd = process.env.NODE_ENV === 'production';
 
-// ─── Production: Resend HTTP API ─────────────────────────────────────────────
 async function sendViaResend({ to, subject, html }) {
   if (!process.env.RESEND_API_KEY) {
     throw new Error('RESEND_API_KEY is not set in environment variables.');
@@ -27,7 +26,6 @@ async function sendViaResend({ to, subject, html }) {
   return data;
 }
 
-// ─── Development: Gmail SMTP via nodemailer ───────────────────────────────────
 let gmailTransporter = null;
 
 async function getGmailTransporter() {
@@ -74,7 +72,6 @@ async function sendViaGmail({ to, subject, html }) {
   return result;
 }
 
-// ─── Unified send ─────────────────────────────────────────────────────────────
 async function send({ to, subject, html }) {
   console.log(`📬 [Email] Sending "${subject}" to ${to} via ${isProd ? 'Resend HTTP' : 'Gmail'}`);
   if (isProd) {
@@ -91,9 +88,6 @@ if (isProd) {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Email functions
-// ─────────────────────────────────────────────────────────────────────────────
 
 export async function sendVerificationEmail(toEmail, name, token) {
   const url = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
@@ -174,13 +168,8 @@ export async function sendPasswordResetOtp(toEmail, name, otp) {
   });
 }
 
-// ─── Contact form — sends TWO emails ─────────────────────────────────────────
-// 1. Auto-reply to the user (thank you email)
-// 2. Notification to your inbox (support message details)
-// ─────────────────────────────────────────────────────────────────────────────
 export async function sendContactEmail({ name, email, category, subject, message }) {
 
-  // ── 1. Auto-reply to user ──────────────────────────────────────────────────
   await send({
     to:      email,
     subject: `We received your message — CodeForge Support`,
@@ -243,7 +232,6 @@ export async function sendContactEmail({ name, email, category, subject, message
     `,
   });
 
-  // ── 2. Notification to your inbox ─────────────────────────────────────────
   await send({
     to:      process.env.EMAIL_TO || process.env.GMAIL_USER,
     subject: `[CodeForge Support] ${category}: ${subject}`,

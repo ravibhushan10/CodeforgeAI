@@ -24,14 +24,12 @@ export default function Seo({ title, description, path = '/', noindex = false })
       <link rel="canonical"           href={url} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-      {/* Open Graph */}
       <meta property="og:title"       content={fullTitle} />
       <meta property="og:description" content={desc} />
       <meta property="og:url"         content={url} />
       <meta property="og:image"       content={OG_IMAGE} />
       <meta property="og:site_name"   content={SITE_NAME} />
 
-      {/* Twitter */}
       <meta name="twitter:title"       content={fullTitle} />
       <meta name="twitter:description" content={desc} />
       <meta name="twitter:image"       content={OG_IMAGE} />

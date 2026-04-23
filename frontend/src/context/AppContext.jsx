@@ -8,9 +8,6 @@ axios.defaults.withCredentials = true;
 const AppContext = createContext(null);
 export const useApp = () => useContext(AppContext);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Offline banner — shown site-wide whenever navigator.onLine is false
-// ─────────────────────────────────────────────────────────────────────────────
 function OfflineBanner({ show }) {
   if (!show) return null;
   return (
@@ -64,7 +61,7 @@ export function AppProvider({ children }) {
   const [showPayment, setShowPayment] = useState(false);
   const openPayment = useCallback(() => setShowPayment(true), []);
 
-  // ── Offline detection ────────────────────────────────────────────────────
+
   useEffect(() => {
     const goOnline  = () => setOffline(false);
     const goOffline = () => setOffline(true);
@@ -76,7 +73,6 @@ export function AppProvider({ children }) {
     };
   }, []);
 
-  // ── Keep backend warm (prevent cold-start delays on free-tier hosts) ─────
   useEffect(() => {
     const ping = () => fetch(`${API}/api/health`).catch(() => {});
     ping();
@@ -182,7 +178,7 @@ export function AppProvider({ children }) {
           const { data: me } = await axios.get('/api/users/me');
           setUser(me);
         } catch {
-          // No refresh token — user is not logged in, that's fine
+         
         }
         return;
       }

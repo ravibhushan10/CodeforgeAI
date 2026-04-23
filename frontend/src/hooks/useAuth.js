@@ -11,27 +11,24 @@ const firebaseAuth = firebaseApp ? getAuth(firebaseApp) : null;
 
 export { isFirebaseConfigured };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────────────────────
 
-/** Returns true when the browser has no network connectivity. */
+
+
+
+
 function isOffline() {
   return typeof navigator !== 'undefined' && !navigator.onLine;
 }
 
-/**
- * Maps a raw Firebase / network error into a friendly Error and throws it.
- * Returns null for benign user-cancelled events.
- */
+
 function parseOAuthError(err, providerName) {
-  // ── User-cancelled / benign ──────────────────────────────────────────────
+
   if (
     err.code === 'auth/popup-closed-by-user' ||
     err.code === 'auth/cancelled-popup-request'
   ) return null;
 
-  // ── No internet / Firebase SDK couldn't reach Google servers ─────────────
+
   if (
     isOffline() ||
     err.code === 'auth/network-request-failed' ||
@@ -46,14 +43,14 @@ function parseOAuthError(err, providerName) {
     throw e;
   }
 
-  // ── Popup blocked ────────────────────────────────────────────────────────
+
   if (err.code === 'auth/popup-blocked') {
     const e = new Error('Popup was blocked by your browser. Please allow popups for this site.');
     e.friendlyMessage = e.message;
     throw e;
   }
 
-  // ── Backend PROVIDER_MISMATCH ────────────────────────────────────────────
+
   const code     = err.response?.data?.code;
   const provider = err.response?.data?.provider;
   if (code === 'PROVIDER_MISMATCH') {
@@ -71,20 +68,20 @@ function parseOAuthError(err, providerName) {
     throw e;
   }
 
-  // ── Any other error ──────────────────────────────────────────────────────
+
   const fallback = err.response?.data?.error || `${providerName} sign-in failed. Please try again.`;
   const e = new Error(fallback);
   e.friendlyMessage = e.message;
   throw e;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Hook
-// ─────────────────────────────────────────────────────────────────────────────
+
+
+
 export function useAuth() {
   const { oauthLogin } = useApp();
 
-  // ── Google ────────────────────────────────────────────────────────────────
+
   const loginWithGoogle = async () => {
     if (!firebaseAuth) return;
 
@@ -110,7 +107,7 @@ export function useAuth() {
     }
   };
 
-  // ── GitHub ────────────────────────────────────────────────────────────────
+
   const loginWithGitHub = async () => {
     if (!firebaseAuth) return;
 

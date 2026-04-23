@@ -5,9 +5,9 @@ import { useApp } from '../context/AppContext.jsx';
 import { useAuth } from '../hooks/useAuth.js';
 import styles from './AuthModals.module.css';
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Entry point
-// ─────────────────────────────────────────────────────────────────────────────
+
+
+
 export default function AuthModals({
   showLogin, onCloseLogin,
   showRegister, onCloseRegister,
@@ -21,9 +21,9 @@ export default function AuthModals({
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// SVG Icons
-// ─────────────────────────────────────────────────────────────────────────────
+
+
+
 function EyeOpen() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -61,9 +61,9 @@ function GitHubIcon() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Shared sub-components
-// ─────────────────────────────────────────────────────────────────────────────
+
+
+
 function Banner({ error, onGoogle, onGitHub, onSwitchToRegister, onSwitchToLogin }) {
   if (!error) return null;
   const cls = error.code === 'RATE_LIMITED' ? styles.bannerWarning : styles.bannerError;
@@ -76,11 +76,11 @@ function Banner({ error, onGoogle, onGitHub, onSwitchToRegister, onSwitchToLogin
       {error.hint === 'github' && (
         <button type="button" className={styles.hintBtn} onClick={onGitHub}>Continue with GitHub </button>
       )}
-      {/* FIX: 'login' hint = already has account, go to login */}
+
       {error.hint === 'login' && (
         <button type="button" className={styles.hintBtn} onClick={onSwitchToLogin}>Sign in instead </button>
       )}
-      {/* FIX: new 'register' hint = no account found, go to register */}
+
       {error.hint === 'register' && (
         <button type="button" className={styles.hintBtn} onClick={onSwitchToRegister}>Create an account </button>
       )}
@@ -136,9 +136,9 @@ function PasswordChecklist({ password, showErrors }) {
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-// ─────────────────────────────────────────────────────────────────────────────
-// OTP input row
-// ─────────────────────────────────────────────────────────────────────────────
+
+
+
 function OtpInput({ otp, setOtp, otpError, otpRefs }) {
   const handleChange = (i, val) => {
     if (!/^\d?$/.test(val)) return;
@@ -170,7 +170,7 @@ function OtpInput({ otp, setOtp, otpError, otpRefs }) {
   );
 }
 
-// Shows resend cooldown only — no expiry timer shown to the user
+
 function ResendHint({ resendCooldown }) {
   if (resendCooldown <= 0) return null;
   return (
@@ -180,10 +180,10 @@ function ResendHint({ resendCooldown }) {
   );
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// LOGIN MODAL
-// Screens: login → forgotEmail → otp → newPwd → success
-// ─────────────────────────────────────────────────────────────────────────────
+
+
+
+
 function LoginModal({ onClose, onSwitch }) {
   const { login, toast }                     = useApp();
   const { loginWithGoogle, loginWithGitHub } = useAuth();
@@ -290,14 +290,14 @@ function LoginModal({ onClose, onSwitch }) {
       } else if (code === 'USE_GITHUB') {
         setOauthError({ message: msg, code, hint: 'github' });
       } else if (code === 'USER_NOT_FOUND') {
-        // FIX: User doesn't exist — prompt them to register
+
         setServerError({
           message: 'No account found with this email.',
           code,
           hint: 'register',
         });
       } else if (code === 'WRONG_PASSWORD') {
-        // FIX: Account exists but password wrong — clear specific field error
+
         setFieldErrors({ password: msg });
       } else {
         setServerError({ message: msg, code });
@@ -354,7 +354,7 @@ function LoginModal({ onClose, onSwitch }) {
       const secondsLeft = err.response?.data?.secondsLeft || 120;
       if (code === 'OTP_COOLDOWN') {
         setOtpResendCooldown(secondsLeft);
-        // Show error in the right banner depending on which screen we're on
+
         if (isResend) setOtpError(err.response.data.error);
         else { setFpCooldown(secondsLeft); setFpError(err.response.data.error); setScreen('otp'); }
       } else {
@@ -393,7 +393,7 @@ function LoginModal({ onClose, onSwitch }) {
     } finally { setNewPwdLoading(false); }
   };
 
-  // ── SCREEN: login ─────────────────────────────────────────────────────────
+
   if (screen === 'login') return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal">
@@ -456,8 +456,8 @@ function LoginModal({ onClose, onSwitch }) {
               error={serverError}
               onGoogle={handleGoogle}
               onGitHub={handleGitHub}
-              onSwitchToLogin={onSwitch}        // onSwitch here = go to register (modal is login, switch = register)
-              onSwitchToRegister={onSwitch}     // same — login modal's onSwitch always goes to register
+              onSwitchToLogin={onSwitch}
+              onSwitchToRegister={onSwitch}
             />
           )}
 
@@ -488,7 +488,7 @@ function LoginModal({ onClose, onSwitch }) {
     </div>
   );
 
-  // ── SCREEN: forgotEmail ───────────────────────────────────────────────────
+
   if (screen === 'forgotEmail') return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal">
@@ -527,7 +527,7 @@ function LoginModal({ onClose, onSwitch }) {
     </div>
   );
 
-  // ── SCREEN: otp (forgot password) ────────────────────────────────────────
+
   if (screen === 'otp') return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal">
@@ -550,7 +550,7 @@ function LoginModal({ onClose, onSwitch }) {
           </div>
         )}
 
-        {/* When timer expires the primary button automatically becomes "Resend OTP" */}
+
         {otpCountdown === 0 && otpExpiry !== null ? (
           <button className="btn btn-primary w-full"
             style={{ justifyContent: 'center', marginTop: 16 }}
@@ -572,7 +572,7 @@ function LoginModal({ onClose, onSwitch }) {
     </div>
   );
 
-  // ── SCREEN: newPwd ────────────────────────────────────────────────────────
+
   if (screen === 'newPwd') return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal">
@@ -617,7 +617,7 @@ function LoginModal({ onClose, onSwitch }) {
     </div>
   );
 
-  // ── SCREEN: success ───────────────────────────────────────────────────────
+
   if (screen === 'success') return (
     <div className="modal-overlay">
       <div className="modal" style={{ textAlign: 'center' }} onClick={e => e.stopPropagation()}>
@@ -649,10 +649,10 @@ function LoginModal({ onClose, onSwitch }) {
   return null;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// REGISTER MODAL
-// Screens: form → otp
-// ─────────────────────────────────────────────────────────────────────────────
+
+
+
+
 function RegisterModal({ onClose, onSwitch }) {
   const { register, toast, setSession } = useApp();
   const { loginWithGoogle, loginWithGitHub } = useAuth();
@@ -779,7 +779,7 @@ function RegisterModal({ onClose, onSwitch }) {
         setRegistered(true);
         setOtpError('');
       } else if (code === 'EMAIL_TAKEN') {
-        // FIX: Show sign-in hint with 'login' hint so Banner renders the right button
+
         setServerError({ message: msg, code, hint: 'login' });
       } else if (code === 'USE_OAUTH') {
         const provider = err.response?.data?.provider;
@@ -810,7 +810,7 @@ function RegisterModal({ onClose, onSwitch }) {
     }
   };
 
-  // ── OTP SCREEN ────────────────────────────────────────────────────────────
+
   if (registered) return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal">
@@ -840,7 +840,7 @@ function RegisterModal({ onClose, onSwitch }) {
           </div>
         )}
 
-        {/* When timer expires the primary button automatically becomes "Resend OTP" */}
+
         {otpCountdown === 0 && otpExpiry !== null ? (
           <button className="btn btn-primary w-full"
             style={{ justifyContent: 'center', marginTop: 16 }}
@@ -870,7 +870,7 @@ function RegisterModal({ onClose, onSwitch }) {
     </div>
   );
 
-  // ── REGISTRATION FORM ─────────────────────────────────────────────────────
+
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="modal">
@@ -941,7 +941,7 @@ function RegisterModal({ onClose, onSwitch }) {
               error={serverError}
               onGoogle={handleGoogle}
               onGitHub={handleGitHub}
-              onSwitchToLogin={onSwitch}      // register modal's onSwitch = go to login
+              onSwitchToLogin={onSwitch}
               onSwitchToRegister={onSwitch}
             />
           )}

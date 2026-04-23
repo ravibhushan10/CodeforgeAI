@@ -24,7 +24,7 @@ export default function LoginPage({ onLogin }) {
       if (!res.ok)          { setError(data.error || 'Login failed'); return }
       if (!data.user.isAdmin) { setError('Not an admin account.');    return }
 
-      // ── Persist token permanently (no expiry) ──────────────────────────
+
       localStorage.setItem(TOKEN_KEY, data.token)
       localStorage.setItem(USER_KEY,  JSON.stringify(data.user))
       localStorage.setItem(API_KEY,   DEFAULT_API)
