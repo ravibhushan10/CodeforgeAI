@@ -839,7 +839,7 @@ router.get('/leaderboard', async (req, res) => {
     const users = await User.find({ isAdmin: false, isVerified: true })
       .select('_id name initials avatarUrl rating ratingTitle plan streak streakLast solved')
       .sort({ rating: -1 })
-      .limit(50);
+      .limit(5000);
 
     const today = new Date().toISOString().slice(0, 10);
     const yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
