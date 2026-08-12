@@ -114,7 +114,7 @@ function Landing() {
 
   return (
     <>
-    <Seo title="Home" path="/" />
+    <Seo path="/" />
     <div className={styles.landing}>
 
 
