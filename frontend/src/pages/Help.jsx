@@ -142,8 +142,8 @@ export default function Help() {
                   <div className={styles.infoIcon}>✉</div>
                   <div>
                     <div className={styles.infoLabel}>Email</div>
-                    <a href="mailto:codeforge.coder.support@gmail.com" className={styles.infoVal}>
-                      codeforge.coder.support@gmail.com
+                    <a href="mailto:ravibhushankumar97tp@gmail.com" className={styles.infoVal}>
+                      ravibhushankumar97tp@gmail.com
                     </a>
                   </div>
                 </div>
@@ -161,10 +161,11 @@ export default function Help() {
                   <div className={styles.infoIcon}>🔗</div>
                   <div>
                     <div className={styles.infoLabel}>Quick links</div>
-                    <div className={styles.quickLinks}>
-                      <Link to="/problems" className={styles.quickLink}>Problems</Link>
-                      <Link to="/dashboard" className={styles.quickLink}>Dashboard</Link>
-                      <Link to="/leaderboard" className={styles.quickLink}>Leaderboard</Link>
+                    <div className={styles.quickLinks} >
+                      <div className={styles.faqQ}>
+                      <a href="https://github.com/yourusername">Made with ❤️ by Ravi Bhushan Kumar</a>
+                      </div>
+                     
                     </div>
                   </div>
                 </div>
