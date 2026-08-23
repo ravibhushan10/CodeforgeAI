@@ -163,7 +163,7 @@ export default function Help() {
                     <div className={styles.infoLabel}>Quick links</div>
                     <div className={styles.quickLinks} >
                       <div className={styles.faqQ}>
-                      <a href="https://github.com/yourusername">Made with ❤️ by Ravi Bhushan Kumar</a>
+                      <a href="https://github.com/ravibhushan10">Made with ❤️ by Ravi Bhushan Kumar</a>
                       </div>
                      
                     </div>
