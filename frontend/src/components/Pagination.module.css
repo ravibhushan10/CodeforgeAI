@@ -1,0 +1,50 @@
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.navBtn, .pageBtn {
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+}
+
+.navBtn { padding: 6px 14px; }
+
+.pageBtn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
+.navBtn:hover:not(:disabled), .pageBtn:hover:not(.activePage) {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.navBtn:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.activePage {
+  background: var(--green);
+  color: #0a0a0a;
+  border-color: var(--green);
+  font-weight: 700;
+}
+
+.dots {
+  color: var(--text-muted);
+  padding: 0 4px;
+  font-size: .82rem;
+}

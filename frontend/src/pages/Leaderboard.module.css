@@ -126,12 +126,7 @@
   align-items: center;
 }
 
-.tableHead,
-.tableRow {
-  display: grid;
-  grid-template-columns: 80px 1fr 120px 180px 100px;
-  align-items: center;
-}
+
 
 .tableHead {
   background: var(--bg-secondary);
@@ -202,4 +197,12 @@
   .podiumStats { padding: 6px 8px; gap: 6px; }
   .tableRow { padding: 10px 12px; }
   .tableHead { padding: 8px 12px; }
+}
+.myRow {
+  background: var(--bg-accent-muted, rgba(0, 208, 132, 0.08));
+  border-left: 2px solid var(--green);
+}
+
+.myRow .uname {
+  color: var(--green);
 }

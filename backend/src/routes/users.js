@@ -833,34 +833,79 @@ router.post('/bookmark/:problemId', authMiddleware, async (req, res) => {
 
 
 
-
 router.get('/leaderboard', async (req, res) => {
   try {
-    const users = await User.find({ isAdmin: false, isVerified: true })
-      .select('_id name initials avatarUrl rating ratingTitle plan streak streakLast solved')
-      .sort({ rating: -1 })
-      .limit(5000);
+    const page  = Math.max(1, parseInt(req.query.page)  || 1);
+    const limit = Math.max(1, parseInt(req.query.limit) || 10);
+    const skip  = (page - 1) * limit;
+    const filter = { isAdmin: false, isVerified: true };
 
-    const today = new Date().toISOString().slice(0, 10);
+    const [users, total] = await Promise.all([
+      User.find(filter)
+        .select('_id name initials avatarUrl rating ratingTitle plan streak streakLast solved')
+        .sort({ rating: -1, _id: 1 }) 
+        .skip(skip)
+        .limit(limit),
+      User.countDocuments(filter),
+    ]);
+
+    const today     = new Date().toISOString().slice(0, 10);
     const yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
-    return res.json(users.map((u, i) => ({
+    const streakFor = (u) =>
+      (u.streak && u.streakLast && (u.streakLast === today || u.streakLast === yesterday)) ? u.streak : 0;
+
+    const leaders = users.map((u, i) => ({
       _id: u._id.toString(),
-      rank: i + 1,
+      rank: skip + i + 1,
       name: u.name,
       initials: u.initials,
       avatarUrl: u.avatarUrl || '',
       rating: u.rating,
       ratingTitle: u.ratingTitle,
       plan: u.plan,
-      streak: (u.streak && u.streakLast && (u.streakLast === today || u.streakLast === yesterday)) ? u.streak : 0,
+      streak: streakFor(u),
       solved: u.solved.length,
-    })));
+    }));
+
+    let you = null;
+    const userId = req.query.userId;
+    if (userId) {
+      const me = await User.findOne({ _id: userId, ...filter })
+        .select('_id name initials avatarUrl rating ratingTitle plan streak streakLast solved');
+      if (me) {
+        const rankAbove = await User.countDocuments({
+          ...filter,
+          $or: [
+            { rating: { $gt: me.rating } },
+            { rating: me.rating, _id: { $lt: me._id } },
+          ],
+        });
+        you = {
+          _id: me._id.toString(),
+          rank: rankAbove + 1,
+          name: me.name,
+          initials: me.initials,
+          avatarUrl: me.avatarUrl || '',
+          rating: me.rating,
+          ratingTitle: me.ratingTitle,
+          plan: me.plan,
+          streak: streakFor(me),
+          solved: me.solved.length,
+        };
+      }
+    }
+
+    return res.json({
+      leaders,
+      you,
+      page,
+      totalPages: Math.max(1, Math.ceil(total / limit)),
+      total,
+    });
   } catch (err) {
     res.status(500).json({ error: 'Something went wrong loading the leaderboard.' });
   }
 });
-
-
 
 
 router.get('/ml-insights', authMiddleware, async (req, res) => {
